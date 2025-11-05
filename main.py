@@ -80,7 +80,7 @@ while True:
     try:
         print("🤖 Bot iniciado e aguardando mensagens...")
         # O timeout=60 ajuda a evitar conexões "presas"
-        bot.polling(non_stop=True, timeout=0) 
+        bot.polling(non_stop=True, timeout=60) 
         
         
     except Exception as e:
