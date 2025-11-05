@@ -1,15 +1,11 @@
 import os
 import time
+from flask import Flask
+from threading import Thread
 import telebot as tb
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
-
-load_dotenv()
-
-
-client = genai.Client()
-
 
 #   FALTAM ADICIONAR
 
@@ -24,6 +20,22 @@ client = genai.Client()
 #   CRIAÇÃO DE IMAGEM
 
 #   CRIAÇÃO DE VIDEO
+
+load_dotenv()
+
+app = Flask(__name__)
+
+client = genai.Client()
+
+@app.route('/')
+def home():
+    return "O bot está rodando!"
+
+def run_flask():
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
+
+
 
 
 BOT_KEY = os.getenv('BOT_KEY')
@@ -76,15 +88,21 @@ def ask_serb(message:tb.types.Message):
         return
     
 
-while True:
-    try:
-        print("🤖 Bot iniciado e aguardando mensagens...")
-        # O timeout=60 ajuda a evitar conexões "presas"
-        bot.polling(non_stop=True, timeout=60) 
-        
-        
-    except Exception as e:
-        # Pega qualquer outro erro fatal que o bot.polling não pegou
-        print(f"⚠️ Erro fatal no polling: {e}")
-        print("Aguardando 5 segundos para reiniciar o polling...")
-        time.sleep(5) # Aguarda 5s e o 'while True' vai tentar de novo
+def run_bot():
+    while True:
+        try:
+            print("🤖 Bot iniciado e aguardando mensagens...")
+            # O timeout=60 ajuda a evitar conexões "presas"
+            bot.polling(non_stop=True, timeout=60) 
+            
+            
+        except Exception as e:
+            # Pega qualquer outro erro fatal que o bot.polling não pegou
+            print(f"⚠️ Erro fatal no polling: {e}")
+            print("Aguardando 5 segundos para reiniciar o polling...")
+            time.sleep(5) # Aguarda 5s e o 'while True' vai tentar de novo
+    
+if __name__ == "__main__":
+    flask_thread = Thread(target=run_flask)
+    flask_thread.start()
+    run_bot()
