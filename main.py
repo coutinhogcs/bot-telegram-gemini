@@ -60,7 +60,7 @@ def ask_serb(message:tb.types.Message):
             model = GEMINI_MODEL,
             contents = content,
             config= types.GenerateContentConfig(
-                temperature=2.0,
+                temperature=1.0,
                 max_output_tokens=8000,
                 top_p=0.95,
                 system_instruction= PROMPT
