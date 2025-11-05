@@ -76,5 +76,20 @@ def ask_serb(message:tb.types.Message):
         return
     
 
-print("🤖 Bot iniciado e aguardando mensagens...")
-bot.polling(non_stop=True)
+while True:
+    try:
+        print("🤖 Bot iniciado e aguardando mensagens...")
+        # O timeout=60 ajuda a evitar conexões "presas"
+        bot.polling(non_stop=True, timeout=60) 
+        
+    except requests.exceptions.ConnectionError as e:
+        # Erro de conexão específico (como o seu)
+        print(f"⚠️ Erro de conexão detectado: {e}")
+        print("Aguardando 10 segundos para reconectar...")
+        time.sleep(10) # Aguarda 10s antes de tentar de novo
+        
+    except Exception as e:
+        # Pega qualquer outro erro fatal que o bot.polling não pegou
+        print(f"⚠️ Erro fatal no polling: {e}")
+        print("Aguardando 5 segundos para reiniciar o polling...")
+        time.sleep(5) # Aguarda 5s e o 'while True' vai tentar de novo
