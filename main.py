@@ -11,6 +11,21 @@ load_dotenv()
 client = genai.Client()
 
 
+#   FALTAM ADICIONAR
+
+#   LEITURA DE IMAGEM
+
+#   LEITURA DE PDF
+
+#   LEITURA DE VIDEO
+
+#   LEITURA DE AUDIO
+
+#   CRIAÇÃO DE IMAGEM
+
+#   CRIAÇÃO DE VIDEO
+
+
 BOT_KEY = os.getenv('BOT_KEY')
 GEMINI_MODEL = os.getenv('GEMINI_MODEL')
 PROMPT = os.getenv('PROMPT')
@@ -61,4 +76,10 @@ def ask_serb(message:tb.types.Message):
         return
     
 
-bot.polling()
+while True:
+    try:
+        print("🤖 Bot iniciado e aguardando mensagens...")
+        bot.polling(non_stop=True, timeout=60)
+    except Exception as e:
+        print(f"⚠️ Erro no polling: {e}")
+        time.sleep(5)  # aguarda 5s e tenta novamente
