@@ -76,10 +76,5 @@ def ask_serb(message:tb.types.Message):
         return
     
 
-while True:
-    try:
-        print("🤖 Bot iniciado e aguardando mensagens...")
-        bot.polling(non_stop=True, timeout=60)
-    except Exception as e:
-        print(f"⚠️ Erro no polling: {e}")
-        time.sleep(5)  # aguarda 5s e tenta novamente
+print("🤖 Bot iniciado e aguardando mensagens...")
+bot.polling(non_stop=True)
